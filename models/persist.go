@@ -4,7 +4,7 @@ import (
 	"example/data-access/db"
 )
 
-func Persist() (id int64, err error) {
+func Persist(artist Artist) (id int64, err error) {
 	conn, err := db.GetConnection()
 
 	if err != nil {
@@ -15,7 +15,7 @@ func Persist() (id int64, err error) {
 
 	dml := "INSERT INTO ARTISTS (NAME) VALUES ($1) RETURNING ID"
 
-	err = conn.QueryRow(dml, "takeo").Scan(&id)
+	err = conn.QueryRow(dml, artist.Name).Scan(&id)
 
 	return
 }
