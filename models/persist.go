@@ -4,8 +4,10 @@ import (
 	"example/data-access/db"
 )
 
+var openConnection = db.GetConnection
+
 func Persist(artist Artist) (id int64, err error) {
-	conn, err := db.GetConnection()
+	conn, err := openConnection()
 
 	if err != nil {
 		return
