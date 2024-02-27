@@ -1,10 +1,9 @@
-package tests
+package repository
 
 import (
 	"database/sql"
 	"fmt"
 	"testing"
-	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	sqle "github.com/src-d/go-mysql-server"
@@ -32,13 +31,14 @@ func (suite *DbTestSuite) SetupSuite() {
 		panic(err.Error())
 	}
 
-	suite.db = *database
-	err = suite.db.Ping()
+	err = database.Ping()
 
 	if err != nil {
 		panic(err.Error())
 	}
 	fmt.Println(">> Openned MySQL connection")
+	suite.db = *database
+	// time.Sleep(20 * time.Second)
 }
 
 func (suite *DbTestSuite) TearDownSuite() {
@@ -50,10 +50,6 @@ func (suite *DbTestSuite) SetupTest() {
 }
 
 func (suite *DbTestSuite) TearDownTest() {
-}
-
-func (suite *DbTestSuite) TestCalc() {
-	suite.Equal(1, 1)
 }
 
 func CreateMemDB() {
@@ -78,25 +74,21 @@ func CreateMemDB() {
 func CreateTestTable() *memory.Database {
 	const (
 		dbName    = "test"
-		tableName = "mytable"
+		tableName = "ARTIST"
 	)
 
 	db := memory.NewDatabase(dbName)
 	table := memory.NewTable(tableName, sqlMock.Schema{
-		{Name: "name", Type: sqlMock.Text, Nullable: false, Source: tableName},
-		{Name: "email", Type: sqlMock.Text, Nullable: false, Source: tableName},
-		{Name: "phone_numbers", Type: sqlMock.JSON, Nullable: false, Source: tableName},
-		{Name: "created_at", Type: sqlMock.Timestamp, Nullable: false, Source: tableName},
+		{Name: "NAME", Type: sqlMock.Text, Nullable: false, Source: tableName},
+		{Name: "ID", Type: sqlMock.Int64, Nullable: false, Source: tableName},
 	})
 
 	db.AddTable(tableName, table)
 	ctx := sqlMock.NewEmptyContext()
 
 	rows := []sqlMock.Row{
-		sqlMock.NewRow("John Doe", "john@doe.com", []string{"555-555-555"}, time.Now()),
-		sqlMock.NewRow("John Doe", "johnalt@doe.com", []string{}, time.Now()),
-		sqlMock.NewRow("Jane Doe", "jane@doe.com", []string{}, time.Now()),
-		sqlMock.NewRow("Evil Bob", "evilbob@gmail.com", []string{"555-666-555", "666-666-666"}, time.Now()),
+		sqlMock.NewRow("John Doe", 1),
+		sqlMock.NewRow("Takeo", 2),
 	}
 
 	for _, row := range rows {

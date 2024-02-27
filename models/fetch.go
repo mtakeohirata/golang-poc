@@ -1,43 +1,41 @@
 package models
 
-import "example/data-access/db"
+// func FetchAll() (artist []Artist, err error) {
+// 	conn, err := db.GetConnection()
+// 	if err != nil {
+// 		return
+// 	}
+// 	defer conn.Close()
 
-func FetchAll() (artist []Artist, err error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return
-	}
-	defer conn.Close()
+// 	dml := "SELECT * FROM ARTIST"
 
-	dml := "SELECT * FROM ARTIST"
+// 	rows, err := conn.Query(dml)
+// 	if err != nil {
+// 		return
+// 	}
 
-	rows, err := conn.Query(dml)
-	if err != nil {
-		return
-	}
+// 	for rows.Next() {
+// 		var artist Artist
+// 		err = rows.Scan(&artist.ID, &artist.Name)
+// 		if err != nil {
+// 			continue
+// 		}
+// 	}
 
-	for rows.Next() {
-		var artist Artist
-		err = rows.Scan(&artist.ID, &artist.Name)
-		if err != nil {
-			continue
-		}
-	}
+// 	return
+// }
 
-	return
-}
+// func FetchById(id int64) (artist Artist, err error) {
+// 	conn, err := db.GetConnection()
 
-func FetchById(id int64) (artist Artist, err error) {
-	conn, err := db.GetConnection()
+// 	if err != nil {
+// 		return
+// 	}
+// 	defer conn.Close()
 
-	if err != nil {
-		return
-	}
-	defer conn.Close()
+// 	dml := "SELECT * FROM ARTIST WHERE ID=$1"
+// 	row := conn.QueryRow(dml, id)
+// 	err = row.Scan(&artist.ID, artist.Name)
 
-	dml := "SELECT * FROM ARTIST WHERE ID=$1"
-	row := conn.QueryRow(dml, id)
-	err = row.Scan(&artist.ID, artist.Name)
-
-	return
-}
+// 	return
+// }

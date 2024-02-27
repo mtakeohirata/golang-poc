@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func GetConnection() (*sql.DB, error) {
+func GetConnection() *sql.DB {
 	confs := configs.GetDBConfig()
 
 	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=verify-full", confs.User, confs.Password, confs.Host, confs.Database)
@@ -19,5 +19,9 @@ func GetConnection() (*sql.DB, error) {
 
 	err = conn.Ping()
 
-	return conn, err
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return conn
 }
