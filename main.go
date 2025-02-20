@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"example/data-access/configs"
+	"example/data-access/db"
 	"fmt"
 	"log"
 	"net/http"
@@ -44,6 +45,9 @@ var albums = []album{
 }
 
 func main() {
+
+	db := db.GetConnection()
+
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.POST("albums", Persist)
