@@ -18,3 +18,9 @@ func (s *DbTestSuite) TestFetchByIdSuccessfully() {
 	s.NotNil(artist)
 
 }
+
+func (s *DbTestSuite) TestMockAlteracoesModuloTerraform() {
+	terraform, err := FetchById(NewArtistsRepository(&s.db), 1)
+	s.NotNil(terraform)
+
+}
